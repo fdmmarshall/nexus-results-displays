@@ -9,8 +9,28 @@ import {
 } from "@tanstack/react-table";
 import styles from "../styles/Home.module.css";
 
+type DinosaurType = {
+  types: string;
+  count: number;
+};
+
+const columns: ColumnDef<DinosaurType>[] = [
+  {
+    accessorKey: "types",
+    header: () => "Types",
+    cell: (info) => info.getValue(),
+    footer: (info) => info.column.id,
+  },
+  {
+    accessorKey: "count",
+    header: () => "Count",
+    cell: (info) => info.getValue(),
+    footer: (info) => info.column.id,
+  },
+];
+
 const Home: NextPage = () => {
-  const [data, setData] = useState<object | undefined>({});
+  const [data, setData] = useState<DinosaurType[]>([]);
 
   useEffect(() => {
     const queryResults = async () => {
@@ -22,12 +42,34 @@ const Home: NextPage = () => {
     queryResults();
   }, [setData]);
 
-  console.log(data);
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
 
-  //takes an object
-  // const table = useReactTable();
-
-  return <div className={styles.container}></div>;
+  return (
+    <div className={styles.container}>
+      <table>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+      </table>
+    </div>
+  );
 };
 
 export default Home;
