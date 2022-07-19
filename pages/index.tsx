@@ -1,4 +1,6 @@
 import type { NextPage } from "next";
+import fetchQuery from "../lib/query";
+import { useEffect, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -8,8 +10,19 @@ import {
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
+  const [data, setData] = useState<object | undefined>({});
+
+  useEffect(() => {
+    const queryData = fetchQuery();
+
+    if (queryData) {
+      console.log(queryData);
+      setData(queryData);
+    }
+  }, [setData]);
+
   //takes an object
-  const table = useReactTable();
+  // const table = useReactTable();
 
   return <div className={styles.container}></div>;
 };
