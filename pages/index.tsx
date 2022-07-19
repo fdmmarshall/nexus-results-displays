@@ -13,13 +13,16 @@ const Home: NextPage = () => {
   const [data, setData] = useState<object | undefined>({});
 
   useEffect(() => {
-    const queryData = fetchQuery();
+    const queryResults = async () => {
+      const data = await fetchQuery();
 
-    if (queryData) {
-      console.log(queryData);
-      setData(queryData);
-    }
+      setData(data);
+    };
+
+    queryResults();
   }, [setData]);
+
+  console.log(data);
 
   //takes an object
   // const table = useReactTable();
