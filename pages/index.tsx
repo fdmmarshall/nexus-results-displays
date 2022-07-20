@@ -21,7 +21,12 @@ type Dinosaur = {
 
 const columnHelper = createColumnHelper<Dinosaur>();
 
-const columns: Dinosaur[] = [];
+const columns = [
+  columnHelper.accessor("_id", {
+    header: () => "_id",
+    cell: (info) => info.getValue(),
+  }),
+];
 
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
