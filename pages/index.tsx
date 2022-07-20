@@ -31,7 +31,7 @@ const Home: NextPage = () => {
       const results = await fetchQuery();
       console.log({ results });
 
-      if (results.isArray() && results.length > 0) {
+      if (Array.isArray(results) && results.length > 0) {
         setData(results);
       }
     };
