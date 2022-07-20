@@ -24,6 +24,30 @@ const columnHelper = createColumnHelper<Dinosaur>();
 const columns = [
   columnHelper.accessor("_id", {
     header: () => "_id",
+    cell: (info) => info.renderValue(),
+  }),
+  columnHelper.accessor("dinosaurName", {
+    header: () => "Dinosaur Name",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("englishTranslation", {
+    header: () => "Translation",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("period", {
+    header: () => "Period",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("dinoType", {
+    header: () => "Dinosaur Type",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("taxonomy", {
+    header: () => "Taxonomy",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("link", {
+    header: () => "Link",
     cell: (info) => info.getValue(),
   }),
 ];
