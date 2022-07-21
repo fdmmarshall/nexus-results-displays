@@ -7,7 +7,6 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import styles from "../styles/Home.module.css";
 
 type Taxonomy = {
   _id: number;
@@ -123,7 +122,7 @@ const Home: NextPage = () => {
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 truncate"
+                    className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-center font-medium text-gray-900 sm:pl-6 truncate"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
