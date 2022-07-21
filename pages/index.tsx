@@ -9,13 +9,25 @@ import {
 } from "@tanstack/react-table";
 import styles from "../styles/Home.module.css";
 
+type Taxonomy = {
+  _id: number;
+};
+
+type Period = {
+  _id: number;
+};
+
+type DinoType = {
+  _id: number;
+};
+
 type Dinosaur = {
   _id: number;
   dinosaurName: string;
   englishTranslation: string;
-  period: object;
-  dinoType: object;
-  taxonomy: object;
+  period: Period;
+  dinoType: DinoType;
+  taxonomy: Taxonomy;
   link: string;
 };
 
@@ -23,30 +35,37 @@ const columnHelper = createColumnHelper<Dinosaur>();
 
 const columns = [
   columnHelper.accessor("_id", {
+    id: "_id",
     header: () => "_id",
     cell: (info) => info.renderValue(),
   }),
   columnHelper.accessor("dinosaurName", {
+    id: "dinosaurName",
     header: () => "Dinosaur Name",
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("englishTranslation", {
+    id: "englishTranslation",
     header: () => "Translation",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("period", {
+  columnHelper.accessor("period"["_id"], {
+    id: "period",
     header: () => "Period",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("dinoType", {
+  columnHelper.accessor("dinoType"["_id"], {
+    id: "dinoType",
     header: () => "Dinosaur Type",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("taxonomy", {
+  columnHelper.accessor("taxonomy"["_id"], {
+    id: "taxonomy",
     header: () => "Taxonomy",
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("link", {
+    id: "link",
     header: () => "Link",
     cell: (info) => info.getValue(),
   }),
@@ -95,7 +114,7 @@ const Home: NextPage = () => {
             ))}
           </thead>
           <tbody>
-            {/* {table.getRowModel().rows.map((row) => (
+            {table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id}>
@@ -103,7 +122,7 @@ const Home: NextPage = () => {
                   </td>
                 ))}
               </tr>
-            ))} */}
+            ))}
           </tbody>
         </table>
       </div>
