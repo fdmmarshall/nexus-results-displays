@@ -8,15 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-type Taxonomy = {
-  _id: number;
-};
-
-type Period = {
-  _id: number;
-};
-
-type DinoType = {
+type Ref = {
   _id: number;
 };
 
@@ -24,9 +16,9 @@ type Dinosaur = {
   _id: number;
   dinosaurName: string;
   englishTranslation: string;
-  period: Period;
-  dinoType: DinoType;
-  taxonomy: Taxonomy;
+  period: Ref;
+  dinoType: Ref;
+  taxonomy: Ref;
   link: string;
 };
 
