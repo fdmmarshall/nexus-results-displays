@@ -49,17 +49,17 @@ const columns = [
     header: () => "Translation",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("period"["_id"], {
+  columnHelper.accessor("period._id", {
     id: "period",
     header: () => "Period",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("dinoType"["_id"], {
+  columnHelper.accessor("dinoType._id", {
     id: "dinoType",
     header: () => "Dinosaur Type",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("taxonomy"["_id"], {
+  columnHelper.accessor("taxonomy._id", {
     id: "taxonomy",
     header: () => "Taxonomy",
     cell: (info) => info.getValue(),
