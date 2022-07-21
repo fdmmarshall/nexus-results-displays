@@ -58,7 +58,11 @@ const columns = [
   columnHelper.accessor("link", {
     id: "link",
     header: () => "Link",
-    cell: (info) => info.getValue(),
+    cell: (info) => (
+      <a href={info.getValue()} target="_blank" rel="noreferrer">
+        {info.getValue()}
+      </a>
+    ),
   }),
 ];
 
