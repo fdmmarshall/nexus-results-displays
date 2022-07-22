@@ -114,7 +114,7 @@ const Home: NextPage = () => {
     };
 
     queryResults();
-  });
+  }, []);
   const [expanded, setExpanded] = useState<ExpandedState>({});
 
   const table = useReactTable({
