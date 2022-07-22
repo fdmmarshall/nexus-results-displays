@@ -9,8 +9,6 @@ import {
   ExpandedState,
   useReactTable,
   getCoreRowModel,
-  getPaginationRowModel,
-  getFilteredRowModel,
   getExpandedRowModel,
   ColumnDef,
   flexRender,
@@ -39,7 +37,8 @@ type Dinosaur = {
 
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
-  const rerender = useReducer(() => ({}), {})[1];
+  const [expanded, setExpanded] = useState<ExpandedState>({});
+  // const rerender = useReducer(() => ({}), {})[1];
 
   const columns = useMemo<ColumnDef<Dinosaur>[]>(
     () => [
@@ -115,19 +114,16 @@ const Home: NextPage = () => {
 
     queryResults();
   }, []);
-  const [expanded, setExpanded] = useState<ExpandedState>({});
 
   const table = useReactTable({
     data,
     columns,
+    getCoreRowModel: getCoreRowModel(),
     state: {
       expanded,
     },
     onExpandedChange: setExpanded,
-    getSubRows: (row) => row.subRows,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    // getSubRows: (row) => row.subRows,
     getExpandedRowModel: getExpandedRowModel(),
     debugTable: true,
   });
