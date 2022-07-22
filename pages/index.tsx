@@ -38,6 +38,7 @@ type Dinosaur = {
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
   const [expanded, setExpanded] = useState<ExpandedState>({});
+  const [periodData, setPeriodData] = useState<PeriodObject[]>([]);
   // const rerender = useReducer(() => ({}), {})[1];
 
   const columns = useMemo<ColumnDef<Dinosaur>[]>(
@@ -70,8 +71,9 @@ const Home: NextPage = () => {
             <button
               type="button"
               className="inline-flex items-center px-3 py-2 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
-              onClick={() => {
-                refQuery(info.getValue() as number);
+              onClick={async () => {
+                const refResults = await refQuery(info.getValue() as number);
+                setPeriodData(refResults);
               }}
             >
               <ArrowsExpandIcon className="inline-block w-5 h-5" />
