@@ -1,12 +1,27 @@
 import type { NextPage } from "next";
 import fetchQuery from "../lib/query";
-import { useEffect, useState } from "react";
+import refQuery from "../lib/refQuery";
+import { useEffect, useState, useReducer, useMemo } from "react";
+import { ArrowsExpandIcon } from "@heroicons/react/solid";
 import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
+  Column,
+  Table,
+  ExpandedState,
   useReactTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getFilteredRowModel,
+  getExpandedRowModel,
+  ColumnDef,
+  flexRender,
 } from "@tanstack/react-table";
+
+type PeriodObject = {
+  _id: number;
+  periodName: string;
+  years: string;
+  location: string[];
+};
 
 type Ref = {
   _id: number;
@@ -22,52 +37,71 @@ type Dinosaur = {
   link: string;
 };
 
-const columnHelper = createColumnHelper<Dinosaur>();
-
-const columns = [
-  columnHelper.accessor("_id", {
-    id: "_id",
-    header: () => "_id",
-    cell: (info) => info.renderValue(),
-  }),
-  columnHelper.accessor("dinosaurName", {
-    id: "dinosaurName",
-    header: () => "Dinosaur Name",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("englishTranslation", {
-    id: "englishTranslation",
-    header: () => "Translation",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("period._id", {
-    id: "period",
-    header: () => "Period",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("dinoType._id", {
-    id: "dinoType",
-    header: () => "Dinosaur Type",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("taxonomy._id", {
-    id: "taxonomy",
-    header: () => "Taxonomy",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("link", {
-    id: "link",
-    header: () => "Link",
-    cell: (info) => (
-      <a href={info.getValue()} target="_blank" rel="noreferrer">
-        {info.getValue()}
-      </a>
-    ),
-  }),
-];
-
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
+  const rerender = useReducer(() => ({}), {})[1];
+
+  const columns = useMemo<ColumnDef<Dinosaur>[]>(
+    () => [
+      {
+        header: () => "_id",
+        accessorKey: "_id",
+        id: "_id",
+        cell: (info) => info.renderValue(),
+      },
+      {
+        header: () => "Dinosaur Name",
+        accessorKey: "dinosaurName",
+        id: "dinosaurName",
+        cell: (info) => info.getValue(),
+      },
+      {
+        header: () => "Translation",
+        accessorKey: "englishTranslation",
+        id: "englishTranslation",
+        cell: (info) => info.getValue(),
+      },
+      {
+        header: () => "Period",
+        accessorKey: "period._id",
+        id: "period",
+        cell: (info) => (
+          <>
+            {info.getValue()}
+            <button
+              type="button"
+              className="inline-flex items-center px-3 py-2 mr-4  text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
+              onClick={() => {
+                refQuery(info.getValue() as number);
+              }}
+            >
+              <ArrowsExpandIcon className="inline-block w-5 h-5" />
+            </button>
+          </>
+        ),
+      },
+      {
+        header: () => "Dinosaur Type",
+        accessorKey: "dinoType._id",
+        id: "dinoType",
+        cell: (info) => info.getValue(),
+      },
+      {
+        header: () => "Taxonomy",
+        accessorKey: "taxonomy._id",
+        id: "taxonomy",
+        cell: (info) => info.getValue(),
+      },
+      {
+        //TODO add <a></a> and href so link is clickable
+        header: () => "Link",
+        accessorKey: "link",
+        id: "link",
+        cell: (info) => info.getValue(),
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
     const queryResults = async () => {
@@ -80,12 +114,22 @@ const Home: NextPage = () => {
     };
 
     queryResults();
-  }, [setData]);
+  });
+  const [expanded, setExpanded] = useState<ExpandedState>({});
 
   const table = useReactTable({
     data,
     columns,
+    state: {
+      expanded,
+    },
+    onExpandedChange: setExpanded,
+    getSubRows: (row) => row.subRows,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
+    debugTable: true,
   });
 
   return (
