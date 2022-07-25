@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
+import SidePanel from "../components/SidePanel";
 import fetchQuery from "../lib/query";
 import refQuery from "../lib/refQuery";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useReducer } from "react";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
 import {
   useReactTable,
@@ -33,8 +34,8 @@ type Dinosaur = {
 
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
+  const [openModal, setModalState] = useState<boolean>(false);
   const [refData, setRefData] = useState<PeriodObject[]>([]);
-  // const rerender = useReducer(() => ({}), {})[1];
 
   const columns = useMemo<ColumnDef<Dinosaur>[]>(
     () => [
@@ -70,6 +71,8 @@ const Home: NextPage = () => {
                 onClick={async () => {
                   const refResults = await refQuery(getValue() as number);
                   setRefData(refResults);
+                  setModalState(!openModal);
+                  console.log({ Modalis: openModal });
                 }}
               >
                 <ExternalLinkIcon className="inline-block w-4 h-4" />
@@ -92,6 +95,8 @@ const Home: NextPage = () => {
                 onClick={async () => {
                   const refResults = await refQuery(getValue() as number);
                   setRefData(refResults);
+                  setModalState(!openModal);
+                  console.log({ Modalis: openModal });
                 }}
               >
                 <ExternalLinkIcon className="inline-block w-4 h-4" />
@@ -114,6 +119,8 @@ const Home: NextPage = () => {
                 onClick={async () => {
                   const refResults = await refQuery(getValue() as number);
                   setRefData(refResults);
+                  setModalState(!openModal);
+                  console.log({ Modalis: openModal });
                 }}
               >
                 <ExternalLinkIcon className="inline-block w-4 h-4" />
@@ -130,7 +137,7 @@ const Home: NextPage = () => {
         cell: (info) => info.getValue(),
       },
     ],
-    []
+    [openModal]
   );
 
   useEffect(() => {
@@ -154,6 +161,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
+      <SidePanel showModal={openModal} setModalState={setModalState} />
       <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
         <table className="min-w-full divide-y divide-gray-300">
           <thead className="bg-gray-50">
