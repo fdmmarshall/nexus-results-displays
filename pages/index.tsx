@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import SidePanel from "../components/SidePanel";
 import fetchQuery from "../lib/query";
 import refQuery from "../lib/refQuery";
-import { useEffect, useState, useMemo, useReducer } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
 import {
   useReactTable,
@@ -37,6 +37,18 @@ const Home: NextPage = () => {
   const [openModal, setModalState] = useState<boolean>(false);
   const [refData, setRefData] = useState<PeriodObject[]>([]);
 
+  const refButtonClick: (value: number) => Promise<void> = useCallback(
+    async (refValue: number) => {
+      const refResults = await refQuery(refValue);
+
+      if (Object.keys(refResults).length > 0) {
+        setRefData(refResults);
+        setModalState(!openModal);
+      }
+    },
+    [openModal]
+  );
+
   const columns = useMemo<ColumnDef<Dinosaur>[]>(
     () => [
       {
@@ -68,11 +80,8 @@ const Home: NextPage = () => {
               <button
                 type="button"
                 className="flex items-center text-center"
-                onClick={async () => {
-                  const refResults = await refQuery(getValue() as number);
-                  setRefData(refResults);
-                  setModalState(!openModal);
-                  console.log({ Modalis: openModal });
+                onClick={() => {
+                  refButtonClick(getValue() as number);
                 }}
               >
                 <ExternalLinkIcon className="inline-block w-4 h-4" />
@@ -92,11 +101,8 @@ const Home: NextPage = () => {
               <button
                 type="button"
                 className="flex items-center text-center"
-                onClick={async () => {
-                  const refResults = await refQuery(getValue() as number);
-                  setRefData(refResults);
-                  setModalState(!openModal);
-                  console.log({ Modalis: openModal });
+                onClick={() => {
+                  refButtonClick(getValue() as number);
                 }}
               >
                 <ExternalLinkIcon className="inline-block w-4 h-4" />
@@ -116,11 +122,8 @@ const Home: NextPage = () => {
               <button
                 type="button"
                 className="flex items-center text-center"
-                onClick={async () => {
-                  const refResults = await refQuery(getValue() as number);
-                  setRefData(refResults);
-                  setModalState(!openModal);
-                  console.log({ Modalis: openModal });
+                onClick={() => {
+                  refButtonClick(getValue() as number);
                 }}
               >
                 <ExternalLinkIcon className="inline-block w-4 h-4" />
@@ -137,7 +140,7 @@ const Home: NextPage = () => {
         cell: (info) => info.getValue(),
       },
     ],
-    [openModal]
+    [refButtonClick]
   );
 
   useEffect(() => {
