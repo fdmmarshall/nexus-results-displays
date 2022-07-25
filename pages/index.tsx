@@ -28,7 +28,7 @@ type Dinosaur = {
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
   const [openModal, setModalState] = useState<boolean>(false);
-  const [refData, setRefData] = useState<object[]>([]);
+  const [refData, setRefData] = useState<object>({});
 
   const refButtonClick: (value: number) => Promise<void> = useCallback(
     async (refValue: number) => {
@@ -162,7 +162,11 @@ const Home: NextPage = () => {
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-      <SidePanel showModal={openModal} setModalState={setModalState} />
+      <SidePanel
+        showModal={openModal}
+        setModalState={setModalState}
+        refObject={refData}
+      />
       <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
         <table className="min-w-full divide-y divide-gray-300">
           <thead className="bg-gray-50">
