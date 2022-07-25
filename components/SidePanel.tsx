@@ -2,15 +2,18 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
+import JSONPretty from "react-json-pretty";
 
 type SidePanelProps = {
   showModal: boolean;
   setModalState: (bool: boolean) => void;
+  refObject: object;
 };
 
 export default function SidePanel({
   showModal,
   setModalState,
+  refObject,
 }: SidePanelProps) {
   return (
     <Transition.Root show={showModal} as={Fragment}>
@@ -35,7 +38,7 @@ export default function SidePanel({
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-lg font-medium text-gray-900">
                           {" "}
-                          Panel title{" "}
+                          Ref info{" "}
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
@@ -50,12 +53,8 @@ export default function SidePanel({
                       </div>
                     </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                      {/* Replace with your content */}
                       <div className="absolute inset-0 px-4 sm:px-6">
-                        <div
-                          className="h-full border-2 border-dashed border-gray-200"
-                          aria-hidden="true"
-                        />
+                        <JSONPretty id="ref" data={refObject}></JSONPretty>
                       </div>
                       {/* /End replace */}
                     </div>
