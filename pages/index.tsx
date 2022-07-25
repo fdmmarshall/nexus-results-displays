@@ -10,7 +10,6 @@ import {
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
-import { getRandomValues } from "crypto";
 
 type Ref = {
   _id: number;
@@ -68,7 +67,7 @@ const Home: NextPage = () => {
         accessorKey: "period._id",
         id: "period",
         cell: ({ getValue }) => (
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-evenly items-center">
             <>
               {`ref: ${getValue()}`}
               <button
@@ -89,7 +88,7 @@ const Home: NextPage = () => {
         accessorKey: "dinoType._id",
         id: "dinoType",
         cell: ({ getValue }) => (
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-evenly items-center">
             <>
               {`ref: ${getValue()}`}
               <button
@@ -110,7 +109,7 @@ const Home: NextPage = () => {
         accessorKey: "taxonomy._id",
         id: "taxonomy",
         cell: ({ getValue }) => (
-          <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-evenly items-center">
             <>
               {`ref: ${getValue()}`}
               <button
