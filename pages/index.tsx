@@ -1,15 +1,11 @@
 import type { NextPage } from "next";
 import fetchQuery from "../lib/query";
 import refQuery from "../lib/refQuery";
-import { useEffect, useState, useReducer, useMemo } from "react";
-import { ArrowsExpandIcon } from "@heroicons/react/solid";
+import { useEffect, useState, useMemo } from "react";
+import { ExternalLinkIcon } from "@heroicons/react/solid";
 import {
-  Column,
-  Table,
-  ExpandedState,
   useReactTable,
   getCoreRowModel,
-  getExpandedRowModel,
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
@@ -37,8 +33,7 @@ type Dinosaur = {
 
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
-  const [expanded, setExpanded] = useState<ExpandedState>({});
-  const [periodData, setPeriodData] = useState<PeriodObject[]>([]);
+  const [refData, setRefData] = useState<PeriodObject[]>([]);
   // const rerender = useReducer(() => ({}), {})[1];
 
   const columns = useMemo<ColumnDef<Dinosaur>[]>(
@@ -65,33 +60,67 @@ const Home: NextPage = () => {
         header: () => "Period",
         accessorKey: "period._id",
         id: "period",
-        cell: (info) => (
-          <>
-            {info.getValue()}
-            <button
-              type="button"
-              className="inline-flex items-center px-3 py-2 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
-              onClick={async () => {
-                const refResults = await refQuery(info.getValue() as number);
-                setPeriodData(refResults);
-              }}
-            >
-              <ArrowsExpandIcon className="inline-block w-5 h-5" />
-            </button>
-          </>
+        cell: ({ getValue }) => (
+          <div className="flex flex-row justify-between items-center">
+            <>
+              {`ref: ${getValue()}`}
+              <button
+                type="button"
+                className="flex items-center text-center"
+                onClick={async () => {
+                  const refResults = await refQuery(getValue() as number);
+                  setRefData(refResults);
+                }}
+              >
+                <ExternalLinkIcon className="inline-block w-4 h-4" />
+              </button>
+            </>
+          </div>
         ),
       },
       {
         header: () => "Dinosaur Type",
         accessorKey: "dinoType._id",
         id: "dinoType",
-        cell: (info) => info.getValue(),
+        cell: ({ getValue }) => (
+          <div className="flex flex-row justify-between items-center">
+            <>
+              {`ref: ${getValue()}`}
+              <button
+                type="button"
+                className="flex items-center text-center"
+                onClick={async () => {
+                  const refResults = await refQuery(getValue() as number);
+                  setRefData(refResults);
+                }}
+              >
+                <ExternalLinkIcon className="inline-block w-4 h-4" />
+              </button>
+            </>
+          </div>
+        ),
       },
       {
         header: () => "Taxonomy",
         accessorKey: "taxonomy._id",
         id: "taxonomy",
-        cell: (info) => info.getValue(),
+        cell: ({ getValue }) => (
+          <div className="flex flex-row justify-between items-center">
+            <>
+              {`ref: ${getValue()}`}
+              <button
+                type="button"
+                className="flex items-center text-center"
+                onClick={async () => {
+                  const refResults = await refQuery(getValue() as number);
+                  setRefData(refResults);
+                }}
+              >
+                <ExternalLinkIcon className="inline-block w-4 h-4" />
+              </button>
+            </>
+          </div>
+        ),
       },
       {
         //TODO add <a></a> and href so link is clickable
@@ -121,13 +150,6 @@ const Home: NextPage = () => {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    state: {
-      expanded,
-    },
-    onExpandedChange: setExpanded,
-    // getSubRows: (row) => row.subRows,
-    getExpandedRowModel: getExpandedRowModel(),
-    debugTable: true,
   });
 
   return (
