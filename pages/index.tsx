@@ -10,13 +10,7 @@ import {
   ColumnDef,
   flexRender,
 } from "@tanstack/react-table";
-
-type PeriodObject = {
-  _id: number;
-  periodName: string;
-  years: string;
-  location: string[];
-};
+import { getRandomValues } from "crypto";
 
 type Ref = {
   _id: number;
@@ -35,7 +29,7 @@ type Dinosaur = {
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
   const [openModal, setModalState] = useState<boolean>(false);
-  const [refData, setRefData] = useState<PeriodObject[]>([]);
+  const [refData, setRefData] = useState<object[]>([]);
 
   const refButtonClick: (value: number) => Promise<void> = useCallback(
     async (refValue: number) => {
@@ -133,11 +127,16 @@ const Home: NextPage = () => {
         ),
       },
       {
-        //TODO add <a></a> and href so link is clickable
         header: () => "Link",
         accessorKey: "link",
         id: "link",
-        cell: (info) => info.getValue(),
+        cell: ({ getValue }) => (
+          <div>
+            <a href={`${getValue()}`} target="_blank" rel="noopener noreferrer">
+              Open Link
+            </a>
+          </div>
+        ),
       },
     ],
     [refButtonClick]
@@ -193,7 +192,7 @@ const Home: NextPage = () => {
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-center font-medium text-gray-900 sm:pl-6 truncate"
+                    className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-center font-medium text-gray-900 sm:pl-6"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
