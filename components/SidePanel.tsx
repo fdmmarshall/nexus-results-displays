@@ -56,7 +56,6 @@ export default function SidePanel({
                       <div className="absolute inset-0 px-4 sm:px-6">
                         <JSONPretty id="ref" data={refObject}></JSONPretty>
                       </div>
-                      {/* /End replace */}
                     </div>
                   </div>
                 </Dialog.Panel>
