@@ -169,7 +169,7 @@ const Home: NextPage = () => {
         setModalState={setModalState}
         refObject={refData}
       />
-      <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+      <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg p-4">
         <table className="min-w-full divide-y divide-gray-300">
           <thead className="bg-gray-50">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -208,8 +208,7 @@ const Home: NextPage = () => {
             ))}
           </tbody>
         </table>
-        <div className="h-2" />
-        <div className="flex items-center gap-2">
+        <div className="flex justify-center items-center gap-2">
           <button
             className="border rounded p-1"
             onClick={() => table.setPageIndex(0)}
