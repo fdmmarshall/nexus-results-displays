@@ -31,7 +31,7 @@ type Dinosaur = {
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
   const [openModal, setModalState] = useState<boolean>(false);
-  const [refData, setRefData] = useState<object>({});
+  const [refData, setRefData] = useState<object[]>([{}]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const refButtonClick: (value: number) => Promise<void> = useCallback(
