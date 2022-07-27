@@ -1,5 +1,22 @@
 export default async function fetchQuery() {
-  const query = {
+  const schemaQuery = {
+    "select": {
+      "?predicate": [
+        "name",
+        "type",
+        "restrictCollection"
+      ]
+    },
+    "where": [
+      [
+        "?predicate",
+        "_predicate/name",
+        "#(re-find (re-pattern \"^[^_]\") ?name)"
+      ]
+    ]
+  }
+
+  const userQuery = {
     select: {
       "?dinosaur": ["*"],
     },
@@ -22,12 +39,24 @@ export default async function fetchQuery() {
     const resp = await fetch(`${url}/query`, {
       method: "POST",
       headers: headers,
-      body: JSON.stringify(query),
+      body: JSON.stringify(schemaQuery),
     });
 
-    const results = await resp.json();
+    if (resp.status === 200) {
 
-    return results;
+      const respTwo = await fetch(`${url}/query`, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(userQuery)
+      })
+
+      const schemaResults = await resp.json()
+
+      const queryResults = await respTwo.json()
+
+      return [schemaResults, queryResults]
+    }
+
   } catch (error) {
     console.error(error);
   }
