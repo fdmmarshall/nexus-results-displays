@@ -148,10 +148,13 @@ const Home: NextPage = () => {
   useEffect(() => {
     const queryResults = async () => {
       const results = await fetchQuery();
-      console.log({ results });
 
-      if (Array.isArray(results) && results.length > 0) {
-        setData(results);
+      const userData = results?.pop();
+
+      const schemaData = results?.pop();
+
+      if (Array.isArray(results)) {
+        setData(userData);
       }
     };
 
