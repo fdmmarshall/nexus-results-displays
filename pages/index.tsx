@@ -32,7 +32,7 @@ const Home: NextPage = () => {
 
       const schemaData = results?.pop();
 
-      setRefData(schemaData);
+      setSchemaData(schemaData);
 
       if (Array.isArray(results)) {
         setData(userData);
