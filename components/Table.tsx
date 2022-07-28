@@ -1,7 +1,7 @@
 import { ExternalLinkIcon } from "@heroicons/react/solid";
-import { useState, useMemo } from "react";
-import { Dinosaur, Predicates } from "../types/props";
-
+import { useState, useMemo, useEffect } from "react";
+import { Dinosaur, Predicate } from "../types/props";
+import createColumns from "../lib/createColumns";
 import {
   useReactTable,
   getCoreRowModel,
@@ -15,11 +15,20 @@ import {
 type TableProps = {
   data: Dinosaur[];
   refButtonClick: (value: number) => Promise<void>;
-  predicates: Predicates[];
+  predicates: Predicate[];
 };
 
-export default function Table({ data, refButtonClick }: TableProps) {
+export default function Table({
+  data,
+  refButtonClick,
+  predicates,
+}: TableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  //TODO createColumns function will run in this useEffect
+  useEffect(() => {
+    createColumns(predicates);
+  }, [predicates]);
 
   const columns = useMemo<ColumnDef<Dinosaur>[]>(
     () => [

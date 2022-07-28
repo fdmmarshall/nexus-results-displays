@@ -3,14 +3,14 @@ import SidePanel from "../components/SidePanel";
 import Table from "../components/Table";
 import fetchQuery from "../lib/query";
 import refQuery from "../lib/refQuery";
-import { Dinosaur, Predicates } from "../types/props";
+import { Dinosaur, Predicate } from "../types/props";
 import { useEffect, useState, useCallback } from "react";
 
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
   const [openModal, setModalState] = useState<boolean>(false);
   const [refData, setRefData] = useState<object[]>([]);
-  const [schemaData, setSchemaData] = useState<Predicates[]>([]);
+  const [schemaData, setSchemaData] = useState<Predicate[]>([]);
 
   const refButtonClick: (value: number) => Promise<void> = useCallback(
     async (refValue: number) => {
