@@ -1,5 +1,7 @@
 import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { useState, useMemo } from "react";
+import { Dinosaur, Predicates } from "../types/props";
+
 import {
   useReactTable,
   getCoreRowModel,
@@ -10,23 +12,10 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 
-type Ref = {
-  _id: number;
-};
-
-type Dinosaur = {
-  _id: number;
-  dinosaurName: string;
-  englishTranslation: string;
-  period: Ref;
-  dinoType: Ref;
-  taxonomy: Ref;
-  link: string;
-};
-
 type TableProps = {
   data: Dinosaur[];
   refButtonClick: (value: number) => Promise<void>;
+  predicates: Predicates[];
 };
 
 export default function Table({ data, refButtonClick }: TableProps) {

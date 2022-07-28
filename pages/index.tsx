@@ -3,26 +3,14 @@ import SidePanel from "../components/SidePanel";
 import Table from "../components/Table";
 import fetchQuery from "../lib/query";
 import refQuery from "../lib/refQuery";
+import { Dinosaur, Predicates } from "../types/props";
 import { useEffect, useState, useCallback } from "react";
-
-type Ref = {
-  _id: number;
-};
-
-type Dinosaur = {
-  _id: number;
-  dinosaurName: string;
-  englishTranslation: string;
-  period: Ref;
-  dinoType: Ref;
-  taxonomy: Ref;
-  link: string;
-};
 
 const Home: NextPage = () => {
   const [data, setData] = useState<Dinosaur[]>([]);
   const [openModal, setModalState] = useState<boolean>(false);
-  const [refData, setRefData] = useState<object[]>([{}]);
+  const [refData, setRefData] = useState<object[]>([]);
+  const [schemaData, setSchemaData] = useState<Predicates[]>([]);
 
   const refButtonClick: (value: number) => Promise<void> = useCallback(
     async (refValue: number) => {
@@ -44,6 +32,8 @@ const Home: NextPage = () => {
 
       const schemaData = results?.pop();
 
+      setRefData(schemaData);
+
       if (Array.isArray(results)) {
         setData(userData);
       }
@@ -59,7 +49,11 @@ const Home: NextPage = () => {
         setModalState={setModalState}
         refObject={refData}
       />
-      <Table data={data} refButtonClick={refButtonClick} />
+      <Table
+        data={data}
+        refButtonClick={refButtonClick}
+        predicates={schemaData}
+      />
     </div>
   );
 };
