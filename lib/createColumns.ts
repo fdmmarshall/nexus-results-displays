@@ -1,3 +1,8 @@
-export default function createColumns() {
+import { Predicates } from "../types/props";
+
+export default function createColumns(predicates: Predicates[]) {
+
+
+
 
 }
