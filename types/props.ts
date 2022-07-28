@@ -12,7 +12,7 @@ export type Dinosaur = {
     link: string;
 };
 
-export type Predicates = {
+export type Predicate = {
     name: string;
     _id: number;
     type: string;
