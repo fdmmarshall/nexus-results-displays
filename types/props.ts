@@ -18,3 +18,18 @@ export type Predicate = {
     type: string;
     restrictCollection: string;
 };
+
+export type LinkProps = {
+    info: any
+}
+
+export type RefProps = {
+    info: any;
+    refButtonClick: (value: number) => Promise<void>;
+}
+
+export type TableProps = {
+    data: Dinosaur[];
+    refButtonClick: (value: number) => Promise<void>;
+    predicates: Predicate[];
+};

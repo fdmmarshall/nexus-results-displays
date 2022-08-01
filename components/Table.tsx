@@ -1,6 +1,5 @@
-import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { useState, useMemo, useEffect } from "react";
-import { Dinosaur, Predicate } from "../types/props";
+import { Dinosaur, TableProps } from "../types/props";
 import createColumns from "../lib/createColumns";
 import {
   useReactTable,
@@ -12,121 +11,23 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 
-type TableProps = {
-  data: Dinosaur[];
-  refButtonClick: (value: number) => Promise<void>;
-  predicates: Predicate[];
-};
-
 export default function Table({
   data,
   refButtonClick,
   predicates,
 }: TableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnObjects, setColumnObjects] = useState<
+    ColumnDef<Dinosaur, unknown>[]
+  >([]);
 
-  //TODO createColumns function will run in this useEffect
   useEffect(() => {
-    createColumns(predicates);
-  }, [predicates]);
+    setColumnObjects(createColumns(predicates, refButtonClick));
+  }, [predicates, refButtonClick]);
 
   const columns = useMemo<ColumnDef<Dinosaur>[]>(
-    () => [
-      {
-        header: () => "_id",
-        accessorKey: "_id",
-        id: "_id",
-        cell: (info) => info.renderValue(),
-      },
-      {
-        header: () => "Dinosaur Name",
-        accessorKey: "dinosaurName",
-        id: "dinosaurName",
-        cell: (info) => info.getValue(),
-      },
-      {
-        header: () => "Translation",
-        accessorKey: "englishTranslation",
-        id: "englishTranslation",
-        cell: (info) => info.getValue(),
-      },
-      {
-        header: () => "Period",
-        accessorKey: "period._id",
-        id: "period",
-        cell: ({ getValue }) => (
-          <div className="flex flex-row justify-evenly items-center">
-            <>
-              {`ref: ${getValue()}`}
-              <button
-                type="button"
-                className="flex items-center text-center"
-                onClick={() => {
-                  refButtonClick(getValue() as number);
-                }}
-              >
-                <ExternalLinkIcon className="inline-block w-4 h-4" />
-              </button>
-            </>
-          </div>
-        ),
-      },
-      {
-        header: () => "Dinosaur Type",
-        accessorKey: "dinoType._id",
-        id: "dinoType",
-        cell: ({ getValue }) => (
-          <div className="flex flex-row justify-evenly items-center">
-            <>
-              {`ref: ${getValue()}`}
-              <button
-                type="button"
-                className="flex items-center text-center"
-                onClick={() => {
-                  refButtonClick(getValue() as number);
-                }}
-              >
-                <ExternalLinkIcon className="inline-block w-4 h-4" />
-              </button>
-            </>
-          </div>
-        ),
-      },
-      {
-        header: () => "Taxonomy",
-        accessorKey: "taxonomy._id",
-        id: "taxonomy",
-        cell: ({ getValue }) => (
-          <div className="flex flex-row justify-evenly items-center">
-            <>
-              {`ref: ${getValue()}`}
-              <button
-                type="button"
-                className="flex items-center text-center"
-                onClick={() => {
-                  refButtonClick(getValue() as number);
-                }}
-              >
-                <ExternalLinkIcon className="inline-block w-4 h-4" />
-              </button>
-            </>
-          </div>
-        ),
-      },
-      {
-        header: () => "Link",
-        accessorKey: "link",
-        id: "link",
-        cell: ({ getValue }) => (
-          <div>
-            <a href={`${getValue()}`} target="_blank" rel="noopener noreferrer">
-              Open Link
-            </a>
-          </div>
-        ),
-      },
-    ],
-    [refButtonClick]
+    () => columnObjects,
+    [columnObjects]
   );
 
   const table = useReactTable({
