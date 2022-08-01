@@ -1,7 +1,12 @@
 import { Predicate, Dinosaur } from "../types/props";
 import type { ColumnDef } from "@tanstack/react-table";
+import UriLink from "../components/UriLink";
+import Ref from "../components/Ref";
 
-export default function createColumns(predicates: Predicate[]) {
+export default function createColumns(
+  predicates: Predicate[],
+  refButtonClick: (value: number) => Promise<void>
+) {
   let columns: ColumnDef<Dinosaur>[] = [
     {
       header: () => "_id",
@@ -11,14 +16,16 @@ export default function createColumns(predicates: Predicate[]) {
     },
   ];
 
+  console.log(predicates);
+
   const filteredPredicates = predicates.map((predicate) => [
-    predicate.name,
+    predicate.name.substring(predicate.name.indexOf("/") + 1),
     predicate.type,
   ]);
 
   console.log(filteredPredicates);
 
-  const test = filteredPredicates.map((arr) => {
+  filteredPredicates.map((arr) => {
     const predicateName: "period" | "dinoType" | "taxonomy" = arr[0] as
       | "period"
       | "dinoType"
@@ -29,7 +36,7 @@ export default function createColumns(predicates: Predicate[]) {
       header: () => predicateName,
       accessorKey: predicateName,
       id: predicateName,
-      cell: filterTypes(predicateType),
+      cell: (info: any) => info.getValue(),
     };
 
     if (predicateType === "ref") {
@@ -37,7 +44,16 @@ export default function createColumns(predicates: Predicate[]) {
         header: () => predicateName,
         accessorKey: `${predicateName}._id`,
         id: predicateName,
-        cell: filterTypes(predicateType),
+        cell: (info: any) => (
+          <Ref info={info} refButtonClick={refButtonClick} />
+        ),
+      });
+    } else if (predicateType === "uri") {
+      columns.push({
+        header: () => predicateName,
+        accessorKey: `${predicateName}._id`,
+        id: predicateName,
+        cell: (info: any) => <UriLink info={info} />,
       });
     } else {
       columns.push(columnObject);
@@ -47,24 +63,4 @@ export default function createColumns(predicates: Predicate[]) {
   console.log(columns);
 
   return columns;
-}
-
-function filterTypes(type: string) {
-  if (type === "ref") {
-    return (info: any) => info.getValue();
-  } else if (type === "uri") {
-    return (info: any) => (
-      <div>
-        <a
-          href={`${info.getValue()}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Open Link
-        </a>
-      </div>
-    );
-  } else if (type === "string") {
-    return (info: any) => info.getValue();
-  }
 }
