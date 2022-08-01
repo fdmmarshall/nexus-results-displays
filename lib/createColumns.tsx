@@ -16,14 +16,10 @@ export default function createColumns(
     },
   ];
 
-  console.log(predicates);
-
   const filteredPredicates = predicates.map((predicate) => [
     predicate.name.substring(predicate.name.indexOf("/") + 1),
     predicate.type,
   ]);
-
-  console.log(filteredPredicates);
 
   filteredPredicates.map((arr) => {
     const predicateName: "period" | "dinoType" | "taxonomy" = arr[0] as
@@ -59,8 +55,6 @@ export default function createColumns(
       columns.push(columnObject);
     }
   });
-
-  console.log(columns);
 
   return columns;
 }
