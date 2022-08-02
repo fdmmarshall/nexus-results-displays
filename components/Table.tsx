@@ -15,6 +15,7 @@ export default function Table({
   data,
   refButtonClick,
   predicates,
+  queryPredicates,
 }: TableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnObjects, setColumnObjects] = useState<
@@ -22,8 +23,10 @@ export default function Table({
   >([]);
 
   useEffect(() => {
-    setColumnObjects(createColumns(predicates, refButtonClick));
-  }, [predicates, refButtonClick]);
+    setColumnObjects(
+      createColumns(predicates, refButtonClick, queryPredicates)
+    );
+  }, [predicates, refButtonClick, queryPredicates]);
 
   const columns = useMemo<ColumnDef<Dinosaur>[]>(
     () => columnObjects,

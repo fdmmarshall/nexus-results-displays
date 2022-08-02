@@ -62,6 +62,7 @@ const Home: NextPage = () => {
         data={data}
         refButtonClick={refButtonClick}
         predicates={schemaData}
+        queryPredicates={userColumnPreds}
       />
     </div>
   );

@@ -5,7 +5,8 @@ import Ref from "../components/Ref";
 
 export default function createColumns(
   predicates: Predicate[],
-  refButtonClick: (value: number) => Promise<void>
+  refButtonClick: (value: number) => Promise<void>,
+  queryPredicates: string[]
 ) {
   let columns: ColumnDef<Dinosaur>[] = [
     {
