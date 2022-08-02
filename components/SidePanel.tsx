@@ -53,7 +53,6 @@ export default function SidePanel({
                       </div>
                     </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                      {/* Replace with your content */}
                       <div className="absolute inset-0 px-4 sm:px-6">
                         <JSONPretty
                           id="ref"
@@ -62,7 +61,6 @@ export default function SidePanel({
                           theme={JSONPretty1337}
                         ></JSONPretty>
                       </div>
-                      {/* /End replace */}
                     </div>
                   </div>
                 </Dialog.Panel>
