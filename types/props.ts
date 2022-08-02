@@ -20,7 +20,7 @@ export type Predicate = {
 };
 
 export type LinkProps = {
-    info: any
+    getValue: any
 }
 
 export type RefProps = {

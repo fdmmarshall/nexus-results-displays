@@ -49,9 +49,9 @@ export default function createColumns(
       } else if (predicateType === "uri") {
         columns.push({
           header: () => predicateName,
-          accessorKey: `${predicateName}._id`,
+          accessorKey: predicateName,
           id: predicateName,
-          cell: (info: any) => <UriLink info={info} />,
+          cell: ({ getValue }) => <UriLink getValue={getValue} />,
         });
       } else {
         columns.push(columnObject);

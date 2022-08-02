@@ -1,9 +1,9 @@
 import type { LinkProps } from "../types/props";
 
-export default function UriLink({ info }: LinkProps) {
+export default function UriLink({ getValue }: LinkProps) {
   return (
     <div>
-      <a href={`${info.getValue()}`} target="_blank" rel="noopener noreferrer">
+      <a href={`${getValue()}`} target="_blank" rel="noopener noreferrer">
         Open Link
       </a>
     </div>
