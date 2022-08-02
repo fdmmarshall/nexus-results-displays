@@ -32,4 +32,5 @@ export type TableProps = {
     data: Dinosaur[];
     refButtonClick: (value: number) => Promise<void>;
     predicates: Predicate[];
+    queryPredicates: string[];
 };
