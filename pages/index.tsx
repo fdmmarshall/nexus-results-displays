@@ -11,12 +11,12 @@ const Home: NextPage = () => {
   const [openModal, setModalState] = useState<boolean>(false);
   const [refData, setRefData] = useState<object[]>([]);
   const [schemaData, setSchemaData] = useState<Predicate[]>([]);
-  const [userColumnPreds, setUserColumsPreds] = useState<string[]>([]);
+  const [userColumnPreds, setUserColumnPreds] = useState<string[]>([]);
 
   const extractPredicates = (data: Dinosaur[]) => {
     data.map((dinoObject) => {
       const keys: string[] = Object.keys(dinoObject);
-      setUserColumsPreds(keys);
+      setUserColumnPreds(keys);
     });
   };
 
