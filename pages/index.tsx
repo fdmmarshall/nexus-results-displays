@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 import SidePanel from "../components/SidePanel";
 import Table from "../components/Table";
+import VBTable from "../components/VBTable";
+import fetchVBQuery from "../lib/variableQueries";
 import fetchQuery from "../lib/query";
 import refQuery from "../lib/refQuery";
 import { Dinosaur, Predicate } from "../types/props";
@@ -12,6 +14,8 @@ const Home: NextPage = () => {
   const [refData, setRefData] = useState<object[]>([]);
   const [schemaData, setSchemaData] = useState<Predicate[]>([]);
   const [userColumnPreds, setUserColumnPreds] = useState<string[]>([]);
+  const [columns, setColumns] = useState<string[]>([]);
+  const [arrayResults, setArrayResults] = useState<Array<string>[]>([]);
 
   const extractPredicates = (data: Dinosaur[]) => {
     data.map((dinoObject) => {
@@ -33,6 +37,14 @@ const Home: NextPage = () => {
   );
 
   useEffect(() => {
+    const variableBindingResults = async () => {
+      const results = await fetchVBQuery();
+      const columns = results?.pop();
+      setColumns(columns);
+      const arrayResults = results?.pop();
+      setArrayResults(arrayResults);
+    };
+
     const queryResults = async () => {
       const results = await fetchQuery();
 
@@ -49,6 +61,7 @@ const Home: NextPage = () => {
     };
 
     queryResults();
+    variableBindingResults();
   }, []);
 
   return (
@@ -64,6 +77,7 @@ const Home: NextPage = () => {
         predicates={schemaData}
         queryPredicates={userColumnPreds}
       />
+      {/* <VBTable  /> */}
     </div>
   );
 };
