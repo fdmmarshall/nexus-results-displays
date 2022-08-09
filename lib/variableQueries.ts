@@ -50,8 +50,11 @@ export default async function fetchVBQuery() {
         })
 
         const queryResults = await resp.json()
+        console.log([queryResults, variableColumns])
 
         return [queryResults, variableColumns]
+
+
 
     } catch (error) {
         console.error(error);

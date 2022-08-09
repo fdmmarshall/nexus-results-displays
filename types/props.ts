@@ -12,6 +12,10 @@ export type Dinosaur = {
     link: string;
 };
 
+export type Results = [
+    number, string, string
+]
+
 export type Predicate = {
     name: string;
     _id: number;
@@ -34,3 +38,8 @@ export type TableProps = {
     predicates: Predicate[];
     queryPredicates: string[];
 };
+
+export type VBTableProps = {
+    varableBindings: string[];
+    data: Results[];
+}
