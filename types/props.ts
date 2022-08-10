@@ -40,6 +40,6 @@ export type TableProps = {
 };
 
 export type VBTableProps = {
-    varableBindings: string[];
+    variableBindings: string[];
     data: Results[];
 }
