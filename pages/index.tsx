@@ -5,7 +5,7 @@ import VBTable from "../components/VBTable";
 import fetchVBQuery from "../lib/variableQueries";
 import fetchQuery from "../lib/query";
 import refQuery from "../lib/refQuery";
-import { Dinosaur, Predicate } from "../types/props";
+import { Dinosaur, Predicate, Results } from "../types/props";
 import { useEffect, useState, useCallback } from "react";
 
 const Home: NextPage = () => {
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   const [schemaData, setSchemaData] = useState<Predicate[]>([]);
   const [userColumnPreds, setUserColumnPreds] = useState<string[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
-  const [arrayResults, setArrayResults] = useState<Array<string>[]>([]);
+  const [arrayResults, setArrayResults] = useState<Array<Results>>([]);
 
   const extractPredicates = (data: Dinosaur[]) => {
     data.map((dinoObject) => {
@@ -40,9 +40,12 @@ const Home: NextPage = () => {
     const variableBindingResults = async () => {
       const results = await fetchVBQuery();
       const columns = results?.pop();
-      setColumns(columns);
       const arrayResults = results?.pop();
-      setArrayResults(arrayResults);
+
+      if (Array.isArray(arrayResults) && arrayResults.length > 0) {
+        setColumns(columns);
+        setArrayResults(arrayResults);
+      }
     };
 
     const queryResults = async () => {
@@ -64,6 +67,9 @@ const Home: NextPage = () => {
     variableBindingResults();
   }, []);
 
+  console.log(columns);
+  console.log(arrayResults);
+
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <SidePanel
@@ -77,7 +83,7 @@ const Home: NextPage = () => {
         predicates={schemaData}
         queryPredicates={userColumnPreds}
       />
-      {/* <VBTable  /> */}
+      <VBTable variableBindings={columns} data={arrayResults} />
     </div>
   );
 };
