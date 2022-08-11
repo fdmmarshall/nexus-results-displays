@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 import { VBTableProps, Results } from "../types/props";
 import {
   ColumnDef,
@@ -8,29 +8,27 @@ import {
 } from "@tanstack/react-table";
 
 export default function VBTable({ data, variableBindings }: VBTableProps) {
-  const columns = useMemo<ColumnDef<Results>[]>(
-    () => [
-      {
-        header: () => <span>{`${variableBindings[0]}`}</span>,
-        accessorKey: "0",
-        id: `${variableBindings[0]}`,
-        cell: (info) => info.getValue(),
-      },
-      {
-        header: () => <span>{`${variableBindings[1]}`}</span>,
-        accessorKey: "1",
-        id: `${variableBindings[1]}`,
-        cell: (info) => info.getValue(),
-      },
-      {
-        header: () => <span>{`${variableBindings[2]}`}</span>,
-        accessorKey: "2",
-        id: `${variableBindings[2]}`,
-        cell: (info) => info.getValue(),
-      },
-    ],
-    [variableBindings]
-  );
+  const [columns, setDefColumns] = useState<ColumnDef<Results, any>[]>([]);
+
+  const createVBColumns = (variableBindings: string[]) => {
+    const columnArray: ColumnDef<Results, any>[] = [];
+    if (variableBindings.length > 0) {
+      variableBindings.map((variable: string, index: number) => {
+        columnArray.push({
+          header: () => <span>{`${variable}`}</span>,
+          accessorKey: `${index}`,
+          id: `${index}`,
+          cell: (info: any) => info.getValue(),
+        });
+      });
+    }
+    console.log(columnArray);
+    return columnArray;
+  };
+
+  useEffect(() => {
+    setDefColumns(createVBColumns(variableBindings));
+  }, [variableBindings]);
 
   const table = useReactTable({
     data,
@@ -38,7 +36,6 @@ export default function VBTable({ data, variableBindings }: VBTableProps) {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  console.log(columns);
   return (
     <div>
       <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
