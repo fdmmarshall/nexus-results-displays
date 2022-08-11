@@ -12,9 +12,8 @@ export type Dinosaur = {
     link: string;
 };
 
-export type Results = [
-    number, string, string
-]
+export type Results = unknown[];
+
 
 export type Predicate = {
     name: string;
