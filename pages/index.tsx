@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import SidePanel from "../components/SidePanel";
 import Table from "../components/Table";
 import VBTable from "../components/VBTable";
-import fetchVBQuery from "../lib/variableQueries";
+import fetchVBQuery from "../lib/variableQuery";
 import fetchQuery from "../lib/query";
 import refQuery from "../lib/refQuery";
 import { Dinosaur, Predicate, Results } from "../types/props";

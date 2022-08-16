@@ -2,28 +2,26 @@ export default async function fetchVBQuery() {
 
     const userQuery = {
         "select": [
-            "?dinosaur",
-            "?dinosaurName",
-            "?translation"
+            "?period",
+            "?periodName",
+            "?years",
+            "?location"
         ],
         "where": [
             [
-                "?dinosaur",
-                "dinos/dinosaurName",
-                "?dinosaurName"
+                "?period",
+                "period/periodName",
+                "?periodName"
             ],
             [
-                "?dinosaur",
-                "dinos/englishTranslation",
-                "?translation"
-            ]
-        ],
-        "opts": {
-            "orderBy": [
-                "ASC",
-                "?dinosaur"
-            ]
-        }
+                "?period",
+                "period/years",
+                "?years"
+            ],
+            ["?period",
+                "period/location",
+                "?location"]
+        ]
     };
     const networkName = "fluree";
     const datasetID = `387028092977386`;
