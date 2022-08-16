@@ -22,7 +22,6 @@ export default function VBTable({ data, variableBindings }: VBTableProps) {
         });
       });
     }
-    console.log(columnArray);
     return columnArray;
   };
 
