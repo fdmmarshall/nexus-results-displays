@@ -19,7 +19,6 @@ export type Predicate = {
     name: string;
     _id: number;
     type: string;
-    restrictCollection: string;
 };
 
 export type LinkProps = {
@@ -32,7 +31,7 @@ export type RefProps = {
 }
 
 export type TableProps = {
-    data: Dinosaur[];
+    data: unknown[];
     refButtonClick: (value: number) => Promise<void>;
     predicates: Predicate[];
     queryPredicates: string[];
